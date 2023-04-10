@@ -67,6 +67,17 @@ this.setState( (state, props) => ({count: state.count + 1}),
   () => { console.log(this.state.count) }); // 1
 ```
 
+### Spread State
+
+`setState` в фукнциональных компонентах не может обновлять одно значение отдельно, нужно либо обновлять все значения вручную, либо использовать Spread State `...prevState,`, который копирует все значения state.
+
+```tsx
+setState((prevState) => ({ name: randomName(), count: prevState.count + 1 }));
+// =
+setState((prevState) => ({ ...prevState, name: randomName() }));
+setState((prevState) => ({ ...prevState, count: prevState.count + 1 }));
+```
+
 ### Batching
 
 React использует `batching` для группировки обновлений `state` внутри `event handler` или `inbuilt hooks`. Это предотвращает компонент от ре-рендера каджого отдельного обновления `state`, и оптимизирует приложение.
@@ -78,7 +89,7 @@ this.setState( (state, props) => ({count: state.count + 1}));
 
 ## Хуки
 
-`React.useState()` - объявляет состояние функции, принимает начальные значения `InitialState` и возвращает массив с состоянием и функцией `[state, func]`
+`React.useState()` - объявляет состояние функции, принимает начальные значения `InitialState` и возвращает массив с состоянием и функцией-апдейтором (диспатчером) `[state, func]`. `InitialState` может быть как значением, так и функцией, возвращающей это значение.
 
 `const [] = React.useState()` - хук
 
@@ -86,7 +97,12 @@ this.setState( (state, props) => ({count: state.count + 1}));
 
 ```tsx
 function test() {
-  const [state, func] = React.useState();
+  // useState принимает значение S
+  const [state, func] = React.useState('123'); // S
+
+  // useState принимает функцию, которая возвращает значение S
+  const randomName = () => uniqueNamesGenerator({dictionaries: [starWars], length: 1})
+  const [state, func] = React.useState(randomName); // () => S
 }
 ```
 
