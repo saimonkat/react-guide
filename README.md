@@ -118,7 +118,7 @@ function test() {
 
 ### Mount & unmount
 
-![image.png](./img/lifecycle-mount.jpg)
+![image.png](./img/lifecycle-mounts.jpg)
 
 ## Дополнения
 
