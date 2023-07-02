@@ -122,4 +122,6 @@ yo react-ts-component-dir name
 
 ## Жизненный цикл компонента
 
+![image.png](./image.png)
+
 `.sbp-SbOverlay` - скрыть bg плеера на Skillbox.
