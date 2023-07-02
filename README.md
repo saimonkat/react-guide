@@ -122,6 +122,12 @@ yo react-ts-component-dir name
 
 ## Жизненный цикл компонента
 
-![image.png](./image.png)
+### Типы
+
+![image.png](./img/lifecycle-types.png)
+
+### Этапы
+
+![image.png](./img/lifecycle-stages.png)
 
 `.sbp-SbOverlay` - скрыть bg плеера на Skillbox.
