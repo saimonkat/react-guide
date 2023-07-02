@@ -108,4 +108,18 @@ function test() {
 
 ## Дополнения
 
+[Генератор React-компонентов](https://github.com/TaoriYu/generator-react-ts-component-dir)
+
+Библиотека позволяет создавать папку с компонентом и всей структурой (.tsx, .ts, .css) одной командой в консоли:
+
+```console
+yo react-ts-component-dir name
+```
+
+[Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
+
+Расширение для браузера Chrome для отладки изменений состояния приложения. Создает в DevTools две дополнительные вкладки (Components & Profiler). Components - отражает все дерево компонентов, а также их свойства.
+
+## Жизненный цикл компонента
+
 `.sbp-SbOverlay` - скрыть bg плеера на Skillbox.
