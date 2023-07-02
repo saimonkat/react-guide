@@ -106,6 +106,20 @@ function test() {
 }
 ```
 
+## Жизненный цикл компонента
+
+### Типы
+
+![image.png](./img/lifecycle-types.jpg)
+
+### Этапы
+
+![image.png](./img/lifecycle-stages.jpg)
+
+### Mount & unmount
+
+![image.png](./img/lifecycle-mount.jpg)
+
 ## Дополнения
 
 [Генератор React-компонентов](https://github.com/TaoriYu/generator-react-ts-component-dir)
@@ -119,15 +133,5 @@ yo react-ts-component-dir name
 [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 
 Расширение для браузера Chrome для отладки изменений состояния приложения. Создает в DevTools две дополнительные вкладки (Components & Profiler). Components - отражает все дерево компонентов, а также их свойства.
-
-## Жизненный цикл компонента
-
-### Типы
-
-![image.png](./img/lifecycle-types.png)
-
-### Этапы
-
-![image.png](./img/lifecycle-stages.png)
 
 `.sbp-SbOverlay` - скрыть bg плеера на Skillbox.
