@@ -1,15 +1,15 @@
 // JS Types (7) -------------------------------------------
-const bool = true;      // typeof bool  -> 'boolean'
-const num = 2;          // typeof num   -> 'number'
-const str = 'str';      // typeof str   -> 'string'
-const nan = NaN;        // typeof nan   -> 'number'
-const obj = {};         // typeof obj   -> 'object'
-const arr = [];         // typeof arr   -> 'object'
-const nul = null;       // typeof nul   -> 'object'
-const sym = Symbol();   // typeof sym   -> 'symbol'
-const und = undefined;  // typeof und   -> 'undefined'
-const _void = void 0;   // typeof _void -> 'undefined'
-const fn = () => {};    // typeof fn    -> 'function'
+const bool = true;                          // typeof bool  -> 'boolean'
+const num = 2;                              // typeof num   -> 'number'
+const str = 'str';                          // typeof str   -> 'string'
+const nan = NaN;                            // typeof nan   -> 'number'
+const obj = {};                             // typeof obj   -> 'object'
+const arr = [];                   // typeof arr   -> 'object'
+const nul = null;                           // typeof nul   -> 'object'
+const sym = Symbol();       // typeof sym   -> 'symbol'
+const und = undefined;                      // typeof und   -> 'undefined'
+const _void = void 0;           // typeof _void -> 'undefined'
+const fn = () => { };   // typeof fn    -> 'function'
 
 // TS Types (9+3) -----------------------------------------
 type AllJsSimpleTypes = boolean | number | string | [] | object | undefined | null | void | symbol;
@@ -17,8 +17,8 @@ type AllJsSimpleTypes = boolean | number | string | [] | object | undefined | nu
 type StrangeTsTypes = any | unknown | never;
 
 // Можно задавать переменную с определенным типом, или же ts определит тип автоматически как в js
-let tsStr1: string = 'asd'; // equal
-let tsStr2 = 'asd';         // equal
+let tsStr1: string = 'asd';  // equal
+let tsStr2 = 'asd'; // equal
 
 // Сложение всех чисел массива
 function sumTS(arr: number[]) {
@@ -32,7 +32,7 @@ const b = '2';
 const results = a + b;
 
 if (typeof b === 'number') {
-  const result = a + b; 
+  const result = a + b;
 }
 
 // Union type ---------------------------------------------
@@ -40,7 +40,7 @@ let strOrNum: string | number = '2';
 strOrNum = 2;
 
 // Alias type (переменная для типов) ----------------------
-type StrOrNum = string | number; 
+type StrOrNum = string | number;
 const strOrNum1: StrOrNum = 1;
 const strOrNum2: StrOrNum = '2';
 const strOrNum3: StrOrNum = 3;
@@ -48,10 +48,10 @@ const strOrNum4: StrOrNum = '4';
 
 
 // Array type ---------------------------------------------
-const tsArr: number[] = [1,2,3];
-const tsArrGeneric: Array<number> = [1,2,3];
-const unionArr: (string | number)[] = [1,2,'3'];
-const unionArrGeneric: Array<string | number> = [1,2,'3'];
+const tsArr: number[] = [1, 2, 3];
+const tsArrGeneric: Array<number> = [1, 2, 3];
+const unionArr: (string | number)[] = [1, 2, '3'];
+const unionArrGeneric: Array<string | number> = [1, 2, '3'];
 
 
 // Tuple (массив фикс. длины) -----------------------------
@@ -62,11 +62,11 @@ const [val1, val2] = myTuple;
 
 
 // Object type --------------------------------------------
-const myObj                            =  { a: 1, b: '2' };
-const myObj1 : { a: number, b: string } =  { a: 1, b: '2' };
+const myObj = { a: 1, b: '2' };
+const myObj1: { a: number, b: string } = { a: 1, b: '2' };
 
-type MyObjType = { a: number, b: string}
-const myObj2 : MyObjType =  { a: 1, b: '2' };
+type MyObjType = { a: number, b: string }
+const myObj2: MyObjType = { a: 1, b: '2' };
 
 // Interface ----------------------------------------------
 interface MyInterface {
@@ -101,7 +101,7 @@ interface IndexInterface {
 
 // Function -----------------------------------------------
 function calculate(method: 'add' | 'sub', left: number, right: number): number {
-  switch(method) {
+  switch (method) {
     case 'add': return left + right;
     case 'sub': return left - right;
   }
@@ -117,7 +117,7 @@ enum Methods {
 }
 
 function calculateEnum(method: Methods, left: number, right: number): number {
-  switch(method) {
+  switch (method) {
     case Methods.add: return left + right;
     case Methods.sub: return left - right;
   }
@@ -153,7 +153,7 @@ if (typeof un === 'string') {
 // Void type ----------------------------------------------
 // (тип функции, которая ничего не возвращает)
 function voidFn(): void {
-  
+
 }
 const someValue1 = voidFn();
 
