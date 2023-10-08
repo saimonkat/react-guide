@@ -27,6 +27,7 @@
   - [Jest](#jest)
   - [Enzyme](#enzyme)
   - [Snapshot](#snapshot)
+  - [React Testing Library](#react-testing-library)
 - [Дополнения](#дополнения)
   - [Ошибки установки пакетов](#ошибки-установки-пакетов)
   - [Генератор компонентов](#генератор-компонентов)
@@ -431,7 +432,7 @@ npx jest --watch
 
 ### Enzyme
 
-[Enzyme](https://enzymejs.github.io/enzyme/) имеет множество методов для тестирования и выводит результат в консоли. Enzyme - довольно устаревшая библиотека, имеет проблемы с поддержкой хуков и не имеет официальной поддержки React 17 и 18. 
+[Enzyme](https://enzymejs.github.io/enzyme/) имеет множество методов для тестирования и выводит результат в консоли. 
 
 Разберем самый простой пример, который проверяет рендер кнопки с классом `.button` внутри компонента `<MyComponent/>`:
 
@@ -449,20 +450,51 @@ describe('<MyComponent/>', () => {
 
 ![image.png](./img/tests-enzyme.jpg)
 
+❗️ Enzyme - довольно устаревшая библиотека, и не имеет официальной поддержки React 17 и 18. 
+
 ### Snapshot
 
-[Snapshot](https://jestjs.io/docs/snapshot-testing) - более продвинутая библиотека. Кроме поддержки последних версий React, основное отличие от [Enzyme](#enzyme) - создание файлов-снапшотов, которые отображают рендер компонента и хранят предыдущие версии тестов.
+[Snapshot](https://jestjs.io/docs/snapshot-testing) - позволяет рендерить [Enzyme](#enzyme) в качестве снэпшота, который отображают рендер компонента и хранит предыдущие версии тестов. То есть грубо говоря создает слепки компонента и позволяет сверять их друг с другом.
 
 ```tsx
 describe('<MyComponent/>', () => {
-  test('renders an `.button`', () => {
+  test('renders <MyComponent/>', () => {
     const wrapper = shallow(<MyComponent />);
     expect(wrapper).toMatchSnapshot();
   })
 })
 ```
 
-Такой тест Snapshot создаст в папке `__test__` компонента папку `__snapshots__`, в ней создаст файл `MyComponent.test.tsx.snap`.
+Такой тест Snapshot создаст в папке `__test__` компонента папку `__snapshots__`, в ней создаст файл `MyComponent.test.tsx.snap` и сохранит текущее состояние компонента:
+
+![image.png](./img/tests-snapshot.jpg)
+
+Далее, если изменить компонент и заново запустить тест, Snapshot тест упадет, он отметит изменения и предложит либо исправить код, либо обновить snapshot. 
+
+### React Testing Library
+
+React Testing Library - самая современная и удобная библиотека для тесирования React-компонентов, строится на основе [DOM Testing Library](https://jestjs.io/docs/tutorial-react) добавления API для работы с компонентами React.
+
+> Примечание: проекты, созданные с использованием `Create React App` уже имеют встроенную поддержку **React Testing Library**.
+
+Пример использования для тестирования чекбокса:
+
+```javascript
+import {fireEvent, render} from '@testing-library/react';
+import CheckboxWithLabel from '../CheckboxWithLabel';
+
+it('CheckboxWithLabel changes the text after click', () => {
+  const {queryByLabelText, getByLabelText} = render(
+    <CheckboxWithLabel labelOn="On" labelOff="Off" />,
+  );
+
+  expect(queryByLabelText(/off/i)).toBeTruthy();
+
+  fireEvent.click(getByLabelText(/off/i));
+
+  expect(queryByLabelText(/on/i)).toBeTruthy();
+});
+```
 
 ## Дополнения
 
