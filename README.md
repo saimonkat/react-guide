@@ -389,6 +389,8 @@ const Test = React.memo(
 
 Модульное тестирование (юнит-тестирование) - процесс, позволяющий проверить на корректность отдельные модули кода, или наборы модулей. Идея в том, чтобы писать тесты для каждой нетривиальной функции или метода. Это позволяет быстро проверить, не привело ли изменение кода к регрессии (ошибкам в уже оттестированном коде).
 
+> Покрывать Unit-тестами верстку нет смысла, нужно тестировать логику: хуки, стейты, обработчики ивентов, коллбеки и прочее.
+
 Примеры самых простых тестов:
 ```typescript
 expect(1 + 1).toBe(2)
@@ -428,7 +430,7 @@ describe('Math.max', () => {
 npx jest --watch
 ```
 
-❗️ Jest из коробки не умеет тестировать React-компоненты, поэтому для тестирования можно использовать библиотеки [Enzyme](https://enzymejs.github.io/enzyme/), [Snapshot](https://jestjs.io/docs/snapshot-testing) или [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
+> Jest из коробки не умеет тестировать React-компоненты, поэтому для тестирования можно использовать библиотеки [Enzyme](https://enzymejs.github.io/enzyme/), [Snapshot](https://jestjs.io/docs/snapshot-testing) или [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
 
 ### Enzyme
 
@@ -450,7 +452,7 @@ describe('<MyComponent/>', () => {
 
 ![image.png](./img/tests-enzyme.jpg)
 
-❗️ Enzyme - довольно устаревшая библиотека, и не имеет официальной поддержки React 17 и 18. 
+> Enzyme - относительно устаревшая библиотека, и не имеет официальной поддержки React 17 и 18. Для использования на React 17 можно использовать неофициальный ападтер [enzyme-adapter-react-17](https://www.npmjs.com/package/@wojtekmaj/enzyme-adapter-react-17).
 
 ### Snapshot
 
