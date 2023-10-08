@@ -18,11 +18,19 @@
 - [Каррирование](#каррирование)
 - [Компонент высшего порядка (HOC)](#компонент-высшего-порядка-hoc)
 - [Композиция утилитарных функций](#композиция-утилитарных-функций)
+- [Условный рендеринг](#условный-рендеринг)
+  - [Встроенные условия if](#встроенные-условия-if)
+    - [Логический оператор if](#логический-оператор-if)
+    - [Тернарный оператор if-else](#тернарный-оператор-if-else)
 - [shouldComponentUpdate()](#shouldcomponentupdate)
+- [Unit-тесты](#unit-тесты)
+  - [Jest](#jest)
+  - [Enzyme](#enzyme)
+  - [Snapshot](#snapshot)
 - [Дополнения](#дополнения)
+  - [Ошибки установки пакетов](#ошибки-установки-пакетов)
   - [Генератор компонентов](#генератор-компонентов)
   - [Redux DevTools](#redux-devtools)
-  - [Skillbox](#skillbox)
 
 ## Введение
 
@@ -48,15 +56,15 @@ https://ru.legacy.reactjs.org/docs/state-and-lifecycle.html
 
 ### Типы
 
-![image.png](./img/lifecycle-types.jpg)
+![image.jpg](./img/lifecycle-types.jpg)
 
 ### Этапы
 
-![image.png](./img/lifecycle-stages.jpg)
+![image.jpg](./img/lifecycle-stages.jpg)
 
 ### Mount & unmount
 
-![image.png](./img/lifecycle-mounts.jpg)
+![image.jpg](./img/lifecycle-mounts.jpg)
 
 ## Хуки
 
@@ -292,6 +300,64 @@ const filterWithId = (id: number) => pipe(pick('id'), isEqual(22), cond);
 const filteredComments = comments.filter(filterWithId(22));
 ```
 
+## Условный рендеринг
+
+React позволяет разделить логику на независимые компоненты. Эти компоненты можно показывать или прятать в зависимости от текущего состояния.
+
+Условный рендеринг в React работает так же, как условные выражения работают в JavaScript. Бывает нужно объяснить React, как состояние влияет на то, какие компоненты требуется скрыть, а какие — отрендерить, и как именно. В таких ситуациях используйте условный оператор JavaScript или выражения подобные `if`.
+
+```tsx
+function UserGreeting(props) {
+  return <h1>С возвращением!</h1>;
+}
+
+function GuestGreeting(props) {
+  return <h1>Войдите, пожалуйста.</h1>;
+}
+
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return <UserGreeting />;
+  }
+  return <GuestGreeting />;
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root')); 
+// Попробуйте заменить на isLoggedIn={true}:
+root.render(<Greeting isLoggedIn={false} />);
+```
+
+### Встроенные условия if
+
+Вы можете внедрить любое выражение в JSX, заключив его в фигурные скобки. 
+
+#### Логический оператор if
+
+Если нужно вставить элемент в зависимости от условия, используем `&&` из JS:
+
+```tsx
+const count = 0;
+return (
+  <div>
+    {count && <h1>Количество сообщений: {count}</h1>}
+  </div>
+);
+```
+
+#### Тернарный оператор if-else
+
+Если нужно выбрать тот или иной элемент в зависимости от условия, используем if-else из JS:
+
+```tsx
+const isLoggedIn = this.state.isLoggedIn;
+return (
+  <div>
+    Пользователь <b>{isLoggedIn ? 'сейчас' : 'не'}</b> на сайте.
+  </div>
+);
+```
+
 ## shouldComponentUpdate()
 
 У всех компонентов React при перерендере срабатывает метод жизненного цикла shouldComponentUpdate(), который сравнивает стейт и пропы компонента которые есть сейчас с тем что нам нужно накатить при следующем рендере. 
@@ -318,7 +384,91 @@ const Test = React.memo(
 )
 ```
 
+## Unit-тесты
+
+Модульное тестирование (юнит-тестирование) - процесс, позволяющий проверить на корректность отдельные модули кода, или наборы модулей. Идея в том, чтобы писать тесты для каждой нетривиальной функции или метода. Это позволяет быстро проверить, не привело ли изменение кода к регрессии (ошибкам в уже оттестированном коде).
+
+Примеры самых простых тестов:
+```typescript
+expect(1 + 1).toBe(2)
+
+if ( (1 + 1) !== 2 ) { throw new Error('assertion failed') }
+```
+
+База для тестов - фунукция test
+```typescript
+test('name;', () => {
+  expect(1 + 1).toBe(2)
+})
+```
+
+Добавить описание можно с помощью describe()
+```typescript
+describe('Math.max', () => {
+  test('should return 2 when add one and one', () => {
+    expect(1 + 1).toBe(2)
+  })
+
+  // Describe могут быть вложенными
+  describe('again', () => {
+    test('sss', () => {})
+  })
+})
+```
+
+### Jest
+
+Основная библиотека для тестирования - [Jest](https://jestjs.io/docs/tutorial-react).
+
+Для написания теста компонента создаем в нем папку `__tests__` и создаем в ней файл с тестами `MyComponent.test.tsx`.
+
+Запуск теста:
+```console
+npx jest --watch
+```
+
+❗️ Jest из коробки не умеет тестировать React-компоненты, поэтому для тестирования можно использовать библиотеки [Enzyme](https://enzymejs.github.io/enzyme/), [Snapshot](https://jestjs.io/docs/snapshot-testing) или [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
+
+### Enzyme
+
+[Enzyme](https://enzymejs.github.io/enzyme/) имеет множество методов для тестирования и выводит результат в консоли. Enzyme - довольно устаревшая библиотека, имеет проблемы с поддержкой хуков и не имеет официальной поддержки React 17 и 18. 
+
+Разберем самый простой пример, который проверяет рендер кнопки с классом `.button` внутри компонента `<MyComponent/>`:
+
+```tsx
+describe('<MyComponent/>', () => {
+  test('renders an `.button`', () => {
+    const wrapper = shallow(<MyComponent />);
+    expect(wrapper).toBeDefined;
+    expect(wrapper.find('.button').isEmptyRender()).toBeFalsy();
+  })
+})
+```
+
+Скриншот с результатами PASS и FAILED тестов:
+
+![image.png](./img/tests-enzyme.jpg)
+
+### Snapshot
+
+[Snapshot](https://jestjs.io/docs/snapshot-testing) - более продвинутая библиотека. Кроме поддержки последних версий React, основное отличие от [Enzyme](#enzyme) - создание файлов-снапшотов, которые отображают рендер компонента и хранят предыдущие версии тестов.
+
+```tsx
+describe('<MyComponent/>', () => {
+  test('renders an `.button`', () => {
+    const wrapper = shallow(<MyComponent />);
+    expect(wrapper).toMatchSnapshot();
+  })
+})
+```
+
+Такой тест Snapshot создаст в папке `__test__` компонента папку `__snapshots__`, в ней создаст файл `MyComponent.test.tsx.snap`.
+
 ## Дополнения
+
+### Ошибки установки пакетов
+
+Pass the `--legacy-peer-deps` flag when using npm commands.
 
 ### Генератор компонентов
 
@@ -335,7 +485,3 @@ yo react-ts-component-dir name
 [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 
 Расширение для браузера Chrome для отладки изменений состояния приложения. Создает в DevTools две дополнительные вкладки (Components & Profiler). Components - отражает все дерево компонентов, а также их свойства.
-
-### Skillbox
-
-`.sbp-SbOverlay` - скрыть bg плеера на Skillbox.
