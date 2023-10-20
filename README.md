@@ -23,6 +23,11 @@
     - [Логический оператор if](#логический-оператор-if)
     - [Тернарный оператор if-else](#тернарный-оператор-if-else)
 - [shouldComponentUpdate()](#shouldcomponentupdate)
+- [Авторизация](#авторизация)
+  - [Auth token](#auth-token)
+  - [User data](#user-data)
+  - [Prop Drilling](#prop-drilling)
+  - [useContext](#usecontext)
 - [Unit-тесты](#unit-тесты)
   - [Jest](#jest)
   - [Enzyme](#enzyme)
@@ -384,6 +389,93 @@ const Test = React.memo(
   }
 )
 ```
+
+## Авторизация
+
+Расписать:
+- основы аутентификации через сторонние сервисы
+
+### Auth token
+
+Расписать:
+- работа с API стороннего сериса
+- формирование ссылки для авторизации через сторонний сервис
+- получение токена после обратного редиректа
+- регистрация поля для токена в window
+- сохранение токена через useState, useEffect и window
+
+### User data
+
+Расписать:
+- получение даннх пользователя через токен, axios и API-запросы
+
+### Prop Drilling
+
+Prop Drilling — это, ситуация, когда одни и те же данные отправляются почти на каждом уровне вложенности из-за необходимости на конечном уровне. Например, мы получаем токен авторизации в корне приложения, в `AppComponent`(). Чтобы пробросить токен в компонент `UserBlock`, вложенный в `SearchBlock`, который вложен в `Header`, нам нужно пробросить его через все эти уровни вложенности. Вот схема, чтобы лучше это продемонстрировать:
+
+![Prop Drilling](img/prop-drilling.jpg)
+
+Проблема с `Prop Drilling` в том, что всякий раз, когда понадобятся данные из родительского компонента, они должны будут поступать с каждого уровня поочереди, несмотря на то, что там они не нужны.
+
+Лучшая альтернатива этому — использование хука [useContext](https://react.dev/reference/react/useContext). 
+
+### useContext
+
+Хук [useContext](https://react.dev/reference/react/useContext) основан на `Context API` и работает c помощью виджетов `Provider` и `Consumer`. Чтобы использовать данные на вложенных компонентах, необходимо обернуть эти компоненты в `Provider` и получить данные в компоненте, используя `Consumer` или перехватчик `useContext`. Context - это глобальная переменная, она обновляется только при передаче нового объекта в качестве value.
+
+`Provider` - передает данные в приложение  
+`Consumer` - получает их в любом месте приложения
+
+1. Создаем файл с контекстом, например, `tokenContext.ts`:
+
+    ```typescript
+    export const tokenContext = React.createContext('');
+    ```
+
+2. Добавляем `Provider` в `App.tsx` и оборачиваем в `<Provider>` все приложение:
+
+    ```typescript
+    import { tokenContext } from './context/tokenContext';
+
+    const [token] = useToken();
+      
+    return (
+      <tokenContext.Provider value={token}>
+        <Layout>
+          // ...
+        </Layout>
+      </tokenContext.Provider>
+    )
+    ```
+
+3. И затем в компоненте можем получить доступ к этому контексту 2 способами:
+
+    3.1. Обернув его в `Consumer`:
+
+    ```typescript
+    import { tokenContext } from "../context/tokenContext";
+
+    const { Consumer } = tokenContext;
+
+    return (
+      <Consumer>
+        {(token) => <Block token={token} />}
+      </Consumer>
+    )
+    ```
+
+    3.2. Или же просто используя `useContext`:
+
+    ```typescript
+    import { tokenContext } from "../context/tokenContext";
+
+    const { Consumer } = tokenContext;
+    const token = useContext(tokenContext);
+
+    return (
+     <Block token={token} />
+    )
+    ```
 
 ## Unit-тесты
 
