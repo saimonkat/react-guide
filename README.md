@@ -9,12 +9,12 @@
   - [Mount \& unmount](#mount--unmount)
 - [Хуки](#хуки)
   - [Полный список хуков](#полный-список-хуков)
-  - [useState()](#usestate)
-  - [setState()](#setstate)
+  - [useState](#usestate)
     - [Переменные setState()](#переменные-setstate)
     - [Задержка в setState()](#задержка-в-setstate)
     - [Spread State](#spread-state)
     - [Batching](#batching)
+  - [useEffect](#useeffect)
 - [Каррирование](#каррирование)
 - [Компонент высшего порядка (HOC)](#компонент-высшего-порядка-hoc)
 - [Композиция утилитарных функций](#композиция-утилитарных-функций)
@@ -60,17 +60,21 @@
 
 https://ru.legacy.reactjs.org/docs/state-and-lifecycle.html
 
+Полный график жизненного цикла:
+
+![lifecycle.jpg](img/lifecycle.jpg)
+
 ### Типы
 
-![image.jpg](./img/lifecycle-types.jpg)
+![lifecycle-types.jpg](./img/lifecycle-types.jpg)
 
 ### Этапы
 
-![image.jpg](./img/lifecycle-stages.jpg)
+![lifecycle-stages.jpg](./img/lifecycle-stages.jpg)
 
 ### Mount & unmount
 
-![image.jpg](./img/lifecycle-mounts.jpg)
+![lifecycle-mounts.jpg](./img/lifecycle-mounts.jpg)
 
 ## Хуки
 
@@ -108,7 +112,7 @@ function Example() {
 9. useLayoutEffect
 10. useDebugValue
 
-### useState()
+### useState
 
 Самый популярный хук, используемый в React - функция `useState()``.
 
@@ -128,9 +132,6 @@ function test() {
   const [state, func] = React.useState(randomName); // () => S
 }
 ```
-
-
-### setState()
 
 #### Переменные setState()
 
@@ -174,6 +175,58 @@ React использует `batching` для группировки обновл
 ```tsx
 this.setState( (state, props) => ({count: state.count + 1}));
 this.setState( (state, props) => ({count: state.count + 1}));
+```
+
+### useEffect
+
+Хук useEffect позволяет управлять различными сопутствующими действиями в функциональном компоненте или то, что называется "side effects" (побочные эффекты), например, извлечение данных, ручное изменение структуры DOM, использование таймеров, логгирование и т.д.. То есть в useEffect выполняет те действия, которые мы не можем выполнить в основной части функционального компонента. Этот хук фактически служит той же цели, что методы жизненного цикла componentDidMount, componentDidUpdate и componentWillUnmount в классах-компонентах.
+
+```tsx
+// Объявляем новую переменную состояния "count"
+const [count, setCount] = useState(10);
+
+useEffect(() => {
+  // Обновляем заголовок документа, используя API браузера
+  document.title = `Вы нажали ${count} раз`;
+});
+
+return (
+  <div>
+    <p>
+      Вы нажали {count} раз
+      &nbsp;
+      <button onClick={() => setCount(count + 1)}>
+        [+ 1]
+      </button>
+      &nbsp;&nbsp;&nbsp;
+      <button onClick={() => setCount(count - 1)}>
+        [- 1]
+      </button>
+    </p>
+  </div>
+);
+```
+
+> По аналогии с классовыми компонентами React, хук useEffect представляет собой совокупность методов componentDidMount, componentDidUpdate, и componentWillUnmount.
+
+В примере выше useEffect() выполняется при каждом рендере компонента. В некоторых случаях это может вызвать проблему с производительностью. Вы можете сделать так, чтобы React пропускал вызов эффекта, если определённые значения остались без изменений между последующими рендерами. Чтобы сделать это, передайте массив в useEffect вторым необязательным аргументом: 
+
+```tsx
+// без второго аргумента выполняются изначально и при каждом измении
+React.useEffect(() => {
+  console.log('componentDidMount');
+  console.log('componentWillUpdate');
+})
+
+// со вторым пустым аргументом выполняется только изначально
+React.useEffect(() => {
+  console.log('componentDidMount');
+}, [])
+
+// со вторым аргументом выполняется при каждом изменении аргумента
+React.useEffect(() => {
+  console.log('componentWillRecieveProps: ', title);
+}, [title])
 ```
 
 ## Каррирование
@@ -413,7 +466,7 @@ const Test = React.memo(
 
 Prop Drilling — это, ситуация, когда одни и те же данные отправляются почти на каждом уровне вложенности из-за необходимости на конечном уровне. Например, мы получаем токен авторизации в корне приложения, в `AppComponent`(). Чтобы пробросить токен в компонент `UserBlock`, вложенный в `SearchBlock`, который вложен в `Header`, нам нужно пробросить его через все эти уровни вложенности. Вот схема, чтобы лучше это продемонстрировать:
 
-![Prop Drilling](img/prop-drilling.jpg)
+![prop-drilling.jpg](img/prop-drilling.jpg)
 
 Проблема с `Prop Drilling` в том, что всякий раз, когда понадобятся данные из родительского компонента, они должны будут поступать с каждого уровня поочереди, несмотря на то, что там они не нужны.
 
@@ -542,7 +595,7 @@ describe('<MyComponent/>', () => {
 
 Скриншот с результатами PASS и FAILED тестов:
 
-![image.png](./img/tests-enzyme.jpg)
+![tests-enzyme.jpg](./img/tests-enzyme.jpg)
 
 > Enzyme - относительно устаревшая библиотека, и не имеет официальной поддержки React 17 и 18. Для использования на React 17 можно использовать неофициальный ападтер [enzyme-adapter-react-17](https://www.npmjs.com/package/@wojtekmaj/enzyme-adapter-react-17).
 
@@ -561,7 +614,7 @@ describe('<MyComponent/>', () => {
 
 Такой тест Snapshot создаст в папке `__test__` компонента папку `__snapshots__`, в ней создаст файл `MyComponent.test.tsx.snap` и сохранит текущее состояние компонента:
 
-![image.png](./img/tests-snapshot.jpg)
+![tests-snapshot.jpg](./img/tests-snapshot.jpg)
 
 Далее, если изменить компонент и заново запустить тест, Snapshot тест упадет, он отметит изменения и предложит либо исправить код, либо обновить snapshot. 
 
