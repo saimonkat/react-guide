@@ -42,6 +42,7 @@
     - [Batching](#batching)
   - [useEffect](#useeffect)
   - [useRef](#useref)
+  - [Cheat Sheet](#cheat-sheet-1)
 - [Portals](#portals)
 - [Каррирование](#каррирование)
 - [Компонент высшего порядка](#компонент-высшего-порядка)
@@ -787,6 +788,12 @@ function UserForm() {
 - воспроизведение медиа `videoRef.current.play()`
 - императивный вызов анимаций `ref.current.animate(...)`
 - интеграция со сторонними DOM-библиотеками `videojs(ref.current)`
+
+### Cheat Sheet
+
+Здесь собрана шпаргалка по всем основным хукам в React.
+
+[React Hooks Cheat Sheet](files/React-Hooks-cheat-sheet.pdf)
 
 ## Portals
 
