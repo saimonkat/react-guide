@@ -61,6 +61,7 @@
   - [Enzyme](#enzyme)
   - [Snapshot](#snapshot)
   - [React Testing Library](#react-testing-library)
+- [State Management](#state-management)
 - [Дополнения](#дополнения)
   - [Ошибки установки пакетов](#ошибки-установки-пакетов)
   - [Генератор компонентов](#генератор-компонентов)
@@ -1235,6 +1236,12 @@ it('CheckboxWithLabel changes the text after click', () => {
   expect(queryByLabelText(/on/i)).toBeTruthy();
 });
 ```
+
+## State Management
+
+Список всех актуальных на сегодня стейт-менеджеров
+
+![state-managers-map.jpg](img/state-managers-map.jpg)
 
 ## Дополнения
 
