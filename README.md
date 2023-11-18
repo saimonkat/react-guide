@@ -1241,7 +1241,7 @@ it('CheckboxWithLabel changes the text after click', () => {
 
 Список всех актуальных на сегодня стейт-менеджеров
 
-![state-managers-map.jpg](img/state-managers-map.jpg)
+![state-managers.jpg](img/state-managers.jpg)
 
 ## Дополнения
 
