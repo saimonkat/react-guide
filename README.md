@@ -589,7 +589,7 @@ enum Days { Sat, Sun, Mon, Tue, Wed, Thu, Fri };
 Здесь собрана шпаргалка по всем основам и типам в TypeScript.
 
 [TypeScript Cheat Sheet (Light)](img/typescript-cheat-sheet--light.jpg)  
-[TypeScript Cheat Sheet (Dark)](img/typescript-cheat-sheet--dark.jpg "download")
+[TypeScript Cheat Sheet (Dark)](img/typescript-cheat-sheet--dark.jpg)
 
 ![typescript-cheat-sheet--light.jpg](img/typescript-cheat-sheet--light.jpg)
 
